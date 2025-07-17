@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 파트3_7팀 중급 프로젝트 README
 
-## Getting Started
+김이서
+임재은
+정새론
+정해성
+하재호
 
-First, run the development server:
+## 주제
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+[Taskify] 는 일정 관리와 공유 기능을 제공하는 웹 애플리케이션입니다. 사용자는 가족, 회사 등 다양한 커뮤니티를 생성하고, 멤버를 초대하여 일정과 할 일 목록을 함께 관리할 수 있습니다. 커뮤니티 내에서 작성된 일정은 카드 형태로 다른 멤버에게 공유되며, 할 일 목록의 생성, 게시, 수정, 삭제와 같은 CRUD 기능을 구현합니다. 또한, 멤버 초대, 목록 분류, 검색, 댓글 작성 기능을 더해 유기적인 커뮤니티 서비스 구축 경험을 제공합니다. TypeScript를 활용하여 프로젝트가 복잡해졌을 때도 안정적인 코드를 유지할 수 있으며, 할 일 카드, 모달, 드래그 앤 드랍과 같은 UI 개발을 위해 외부 라이브러리를 적극 활용하여 가독성과 사용성을 개선할 수 있습니다.
+협업 툴이나 일정 관리 시스템에 관심 있는 학생들에게 적합합니다.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 기술 스택
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- HTML & CSS
+- Typescript
+- tailwind
+- Next.js
+- React
+- OAuth
+- Drag n Drop UI
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 배포 사이트
 
-## Learn More
+## 수행 계획서
 
-To learn more about Next.js, take a look at the following resources:
+## 디자인 시안
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[🔗Figma](https://www.figma.com/design/duRdnTqTeenOrKYOX1Byk6/-BBB-Taskify?node-id=109-2344&t=Y5cFb9F8Lde5Z6u4-0)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[🔗Swagger](https://sp-taskify-api.vercel.app/docs/#/)
