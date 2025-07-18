@@ -20,7 +20,8 @@
 - React
 - OAuth
 - Drag n Drop UI
-
+- Zustand
+  
 ## 배포 사이트
 
 ## 수행 계획서
