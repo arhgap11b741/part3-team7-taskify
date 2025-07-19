@@ -1,4 +1,5 @@
 'use client';
+
 import signupAPI from '@/api/auth/signupAPI';
 import { useState } from 'react';
 
@@ -8,7 +9,8 @@ const SignupPage = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: SubmitEvent) => {
+    event.preventDefault(); // <- 짜증나는 놈 ㅠ_ㅠ
     try {
       const response = await signupAPI({
         email: email,
@@ -40,7 +42,7 @@ const SignupPage = () => {
           <label>비밀번호</label>
           <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
-        <button type='submit'></button>
+        <button type='submit'>가입하기</button>
       </form>
       {message && <p>{message}</p>}
     </div>
