@@ -11,6 +11,7 @@
     "tailwindcss": "cross-env PATH=$NODE_PATH./node_modules/.bin/tailwindcss init -p"
   },
   "dependencies": {
+    "axios": "^1.10.0",
     "next": "15.4.1",
     "react": "19.1.0",
     "react-dom": "19.1.0"
