@@ -9,8 +9,9 @@ const SignupPage = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (event: SubmitEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // <- 짜증나는 놈 ㅠ_ㅠ
+
     try {
       const response = await signupAPI({
         email: email,
