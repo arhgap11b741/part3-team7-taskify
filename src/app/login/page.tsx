@@ -1,6 +1,7 @@
 'use client';
 import loginAPI from '@/api/auth/loginAPI';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -26,21 +27,24 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>이메일</label>
-          <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
-        </div>
+    <>
+      <Image src='/images/images_logo.png' alt='로고 이미지' width={200} height={280} />
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>이메일</label>
+            <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+          </div>
 
-        <div>
-          <label>비밀번호</label>
-          <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
-        <button type='submit'>로그인</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
+          <div>
+            <label>비밀번호</label>
+            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+          </div>
+          <button type='submit'>로그인</button>
+        </form>
+        {message && <p>{message}</p>}
+      </div>
+    </>
   );
 };
 export default LoginPage;

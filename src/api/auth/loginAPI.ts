@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 /**
- * 회원가입 API 컴포넌트
- * @param {object} userData - 회원가입 데이터 (email, nickname, password)
+ * 로그인 API 컴포넌트
+ * @param {object} userData - 로그인 데이터 (email, password)
  * @returns {Promise<any>} - API 응답 데이터
  */
 
