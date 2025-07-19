@@ -35,6 +35,7 @@
 [🔗Swagger](https://sp-taskify-api.vercel.app/docs/#/)
 
 ## 폴더 구조
+```
 📦public
  ┣ 📂icon
  ┗ 📂images
@@ -58,3 +59,4 @@
  ┣ 📂contexts
  ┣ 📂function
  ┗ 📂hooks
+```
