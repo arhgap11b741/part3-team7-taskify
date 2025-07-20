@@ -3,8 +3,16 @@
 import signupAPI from '@/api/auth/signupAPI';
 import { useState } from 'react';
 import Image from 'next/image';
+import { useRouterContext } from '@/contexts/RouterContext';
+
+interface SignupResponse {
+  nickname: string;
+  accessToken: string;
+  // refreshToken: string;
+}
 
 const SignupPage = () => {
+  const { router } = useRouterContext();
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
@@ -14,16 +22,19 @@ const SignupPage = () => {
     event.preventDefault();
 
     try {
-      const response = await signupAPI({
+      const response: SignupResponse = await signupAPI({
         email: email,
         nickname: nickname,
         password: password,
       });
 
+      sessionStorage.setItem('accessToken', response.accessToken);
+
       setMessage(`회원가입 성공: ${response.nickname}`);
       setEmail('');
       setNickname('');
       setPassword('');
+      router.push('/dashboard'); //회원가입 성공시 로그인 상태로 대시보드로 redirection.
     } catch (error) {
       console.error('회원가입 오류:', error);
       setMessage('회원가입 실패');
