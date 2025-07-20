@@ -26,7 +26,7 @@ jobs:
         run: |
           git remote add upstream https://github.com/Part3-Team7-Taskify/part3-team7-taskify.git           
           git fetch upstream
-          git merge upstream/${GITHUB_REF:11} # PR이 머지된 브랜치 병합
-          git push origin main # 또는 개인 레포지토리의 기본 브랜치
+          git merge upstream/${GITHUB_REF:11} 
+          git push origin main 
         env:
           GITHUB_REF: ${{ github.ref }}
