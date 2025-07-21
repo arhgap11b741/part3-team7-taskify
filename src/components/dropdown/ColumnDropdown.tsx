@@ -1,34 +1,10 @@
 'use client';
 
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import ChevronDown from '../../../public/icon/arrow_drop_down_FILL0_wght300_GRAD0_opsz24 2.svg';
 import { ColumnChip } from '../chip/ColumnChip';
-
-interface DropdownContextType {
-  isOpen: boolean;
-  selectedItem: string | null;
-  toggleDropdown: () => void;
-  closeDropdown: () => void;
-  setSelectedItem: (item: string | null) => void;
-}
-
-const DropdownContextDefaultValues: DropdownContextType = {
-  isOpen: false,
-  selectedItem: null,
-  toggleDropdown: () => {},
-  closeDropdown: () => {},
-  setSelectedItem: () => {},
-};
-
-const DropdownContext = createContext<DropdownContextType>(DropdownContextDefaultValues);
-
-const useDropdownContext = (): DropdownContextType => {
-  const context = useContext(DropdownContext);
-  if (context === undefined) {
-    console.error('Dropdown Context는 Dropdown.Root안에서 사용해주세요!');
-  }
-  return context;
-};
+import { DropdownContextType } from './DropdownTypes';
+import { DropdownContext, useDropdownContext } from './DropdownContext';
 
 const DropdownRoot = ({
   children,
@@ -43,10 +19,6 @@ const DropdownRoot = ({
   const toggleDropdown = () => setIsOpen(!isOpen);
   const closeDropdown = () => setIsOpen(false);
 
-  useEffect(() => {
-    valueCallback(selectedItem);
-  }, [selectedItem, valueCallback]);
-
   const contextValue: DropdownContextType = {
     isOpen,
     selectedItem,
@@ -54,6 +26,10 @@ const DropdownRoot = ({
     closeDropdown,
     setSelectedItem,
   };
+
+  useEffect(() => {
+    valueCallback(selectedItem);
+  }, [selectedItem, valueCallback]);
 
   return (
     <DropdownContext.Provider value={contextValue}>
