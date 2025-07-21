@@ -1,5 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { apiClient } from '@/api/auth/apiClient';
+import { useRouter } from 'next/navigation';
 
 interface Dashboard {
   id: number;
@@ -11,38 +13,54 @@ interface Dashboard {
   userId: number;
 }
 
-interface ApiResponse {
+interface DashboardResponse {
   cursorId: string;
   totalCount: number;
   dashboards: Dashboard[];
 }
 
+async function fetchDashboards() {
+  const res = await apiClient.get<DashboardResponse>('dashboards');
+  return res.data; //DashboardResponse 로 안전하게 전부 받읍시다 ㅠ
+}
+
 const Dashboard = () => {
-  const [colors, setColors] = useState<string[]>([]);
+  const [dashboards, setDashboards] = useState<Dashboard[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    async function fetchColors() {
-      try {
-        const response = await fetch(
-          'https://sp-taskify-api.vercel.app/16-7/dashboards?navigationMethod=infiniteScroll&page=1&size=10',
-        );
-        const data: ApiResponse = await response.json();
+    fetchDashboards()
+      .then((data) => {
+        setDashboards(data.dashboards);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
 
-        if (data.dashboards) {
-          const colorList = data.dashboards.map((dashboard) => dashboard.color);
-          setColors(colorList);
+        // 에러처리
+
+        if (err?.response?.status === 401) {
+          router.push('/login'); //redirect!
         }
-      } catch (error) {
-        console.error('api error:', error);
-      }
-    }
-    fetchColors();
-  }, []);
+      });
+  }, [router]);
+
+  if (loading) return <div>로딩중...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <div>
-      {colors.map((color, index) => (
-        <div key={index} className={`text-[${color}]`}>
-          이게 아이콘 색깔
+      {dashboards.map((d) => (
+        <div key={d.id}>
+          <div>{d.title}</div>
+          <div>{d.color}</div>
+          <div>{d.createdAt}</div>
+          <div>{d.updatedAt}</div>
+          <div>{d.createdByMe}</div>
+          <div>{d.userId}</div>
         </div>
       ))}
     </div>
