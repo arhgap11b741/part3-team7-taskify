@@ -9,6 +9,7 @@ interface LoginResponse {
 }
 
 const LoginPage = () => {
+  const { router } = useRouterContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -27,6 +28,7 @@ const LoginPage = () => {
       setMessage(`로그인 성공`);
       setEmail('');
       setPassword('');
+      router.push('/dashboard'); //로그인 성공시 로그인 상태로 대시보드로 redirection.
     } catch (error) {
       console.error('로그인 오류:', error);
       setMessage('로그인 실패');

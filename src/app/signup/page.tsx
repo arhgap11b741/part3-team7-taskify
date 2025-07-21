@@ -3,12 +3,14 @@ import { apiClient } from '@/api/auth/apiClient';
 import { useState } from 'react';
 import Image from 'next/image';
 import { setAccessToken } from '@/utils/tokenhandler';
+import { useRouterContext } from '@/contexts/RouterContext';
 
 interface SignupResponse {
   accessToken: string; // 액세스 토큰 타입 명시
 }
 
 const SignupPage = () => {
+  const { router } = useRouterContext();
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
@@ -32,6 +34,7 @@ const SignupPage = () => {
       setEmail('');
       setNickname('');
       setPassword('');
+      router.push('/dashboard'); //회원가입 성공시 로그인 상태로 대시보드로 redirection.
     } catch (error) {
       console.error('회원가입 오류:', error);
       setMessage('회원가입 실패');
