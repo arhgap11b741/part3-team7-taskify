@@ -19,6 +19,8 @@ interface SignupResponse {
   profileImageUrl: string;
   createdAt: string;
   updatedAt: string;
+  accessToken: string;
+  // refreshToken: string;
 }
 
 async function signupAPI(userData: UserData): Promise<SignupResponse> {

@@ -3,6 +3,7 @@ import { apiClient } from '@/api/auth/apiClient';
 import { useState } from 'react';
 import Image from 'next/image';
 import { setAccessToken } from '@/utils/tokenhandler';
+import { useRouterContext } from '@/contexts/RouterContext';
 
 interface LoginResponse {
   accessToken: string; // 액세스 토큰 타입 명시
