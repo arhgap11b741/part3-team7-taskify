@@ -11,19 +11,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+
+} */
 @supports (-webkit-touch-callout: none) {
   /* 아이폰에서 vh값 구하기 */
   .h-screen {
     height: -webkit-fill-available;
   }
 }
-
 body {
   background: var(--background);
   color: var(--foreground);

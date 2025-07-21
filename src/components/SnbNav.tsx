@@ -1,11 +1,13 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { mockDashboardData, Dashboard } from '@/api/mockDashboards';
-
+import TestModal from './TestModal';
 import Image from 'next/image';
 
 const SnbNav = () => {
   const [dashboards, setDashboards] = useState<Dashboard[]>([]);
+  // 추가하기 버튼으로 테스트 모달을 띄울 state
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   /*
   페이지네이션구현 시 사용할 state
@@ -28,6 +30,7 @@ const SnbNav = () => {
     */
   const handleNewDashboardAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log('대시보드를 추가하는 모달이 띄워져야함');
+    setIsModalOpen(true);
   };
   return (
     <section>
@@ -131,6 +134,7 @@ const SnbNav = () => {
           </button>
         </div>
       </nav>
+      {isModalOpen && <TestModal onClose={() => setIsModalOpen(false)} />}
     </section>
   );
 };

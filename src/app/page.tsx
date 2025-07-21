@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>홈페이지예요</div>;
+  return <div>taskify 랜딩페이지예요. :)</div>;
 }
