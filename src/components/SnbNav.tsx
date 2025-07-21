@@ -31,7 +31,7 @@ const SnbNav = () => {
   };
   return (
     <section>
-      <nav className='bg-white xs:w-[160px] md:w-[300px] xs:items-start xs:px-[13px] xs:h-full flex flex-col gap-[17px] items-center w-[68px] px-[12px] py-[20px] h-screen border-r-1 border-[#D9D9D9]'>
+      <nav className='bg-white sm:w-[160px] lg:w-[300px] sm:items-start sm:px-[13px] sm:h-full flex flex-col gap-[17px] items-center w-[68px] px-[12px] py-[20px] h-screen border-r-1 border-[#D9D9D9]'>
         <h1>
           <Image
             src='/icons/icon_snbTaskifyMOLogo.svg' // 모바일용 로고 이미지 경로
@@ -39,7 +39,7 @@ const SnbNav = () => {
             width={41}
             height={28}
             priority
-            className='xs:hidden' // 375px 이상에서는 숨김
+            className='sm:hidden' // 375px 이상에서는 숨김
           />
           <Image
             src='/icons/icon_snbTaskifyLogo.svg' // 데스크탑용 로고 이미지 경로
@@ -47,11 +47,11 @@ const SnbNav = () => {
             width={108.8} // 필요에 따라 데스크탑 로고의 너비/높이 조정
             height={33.07}
             priority
-            className='hidden xs:block' // 375px 미만에서는 숨김, 375px 이상에서는 보임
+            className='hidden sm:block' // 375px 미만에서는 숨김, 375px 이상에서는 보임
           />
         </h1>
-        <div className='flex justify-center items-center w-full xs:justify-between'>
-          <h5 className='hidden xs:block text-xs text-[#787486] font-semibold'>Dash Boards</h5>
+        <div className='flex justify-center items-center w-full sm:justify-between'>
+          <h5 className='hidden sm:block text-sm text-[#787486] font-semibold'>Dash Boards</h5>
           <button className='cursor-pointer' onClick={handleNewDashboardAdd}>
             <Image
               src='/icons/icon_dashboardAdd.svg'
@@ -59,7 +59,7 @@ const SnbNav = () => {
               aria-label='새로운 대시보드 추가'
               width={24}
               height={24}
-              className='w-[24px] h-[24px] xs:hidden'
+              className='w-[24px] h-[24px] sm:hidden'
             />
             <Image
               src='/icons/icon_dashboardAdd.svg'
@@ -67,25 +67,25 @@ const SnbNav = () => {
               aria-label='새로운 대시보드 추가'
               width={20}
               height={20}
-              className='hidden xs:block xs:w-[20px] xs:h-[20px]'
+              className='hidden sm:block sm:w-[20px] sm:h-[20px]'
             />
           </button>
         </div>
 
-        <ul className='flex flex-col gap-[14px] xs:gap-[4px] w-full'>
+        <ul className='flex flex-col gap-[14px] sm:gap-[4px] w-full'>
           {dashboards.map((item) => (
             <li
               key={item.id}
-              className='hover:bg-[#F1EFFD] p-[16px] text-[#787486] font-medium cursor-pointer xs:pl-[10px] xs:py-[8.5px] rounded-sm'
+              className='hover:bg-[#F1EFFD] p-[16px] text-[#787486] font-medium cursor-pointer sm:pl-[10px] sm:py-[8.5px] rounded-sm'
             >
-              <div className='flex justify-center items-center gap-[14px] xs:justify-start'>
+              <div className='flex justify-center items-center gap-[14px] sm:justify-start'>
                 <span
                   className='w-[8px] h-[8px] rounded-full block rounded-sm'
                   style={{ backgroundColor: item.color }}
                 ></span>
 
-                <div className='hidden xs:flex items-center gap-[4px]'>
-                  <span className='w-full xs:w-[75px] overflow-hidden text-ellipsis whitespace-nowrap md:w-full'>
+                <div className='hidden sm:flex items-center gap-[4px]'>
+                  <span className='w-full sm:w-[75px] overflow-hidden text-ellipsis whitespace-nowrap lg:w-full'>
                     {item.title}
                   </span>
                   {item.createdByMe && (
@@ -103,7 +103,7 @@ const SnbNav = () => {
             </li>
           ))}
         </ul>
-        <div className='hidden xs:flex mt-[11px]'>
+        <div className='hidden sm:flex mt-[11px]'>
           <button
             // disabled={prevCursor === null}
             className='p-[11px] border border-[#D9D9D9] rounded-l-sm cursor-pointer'
