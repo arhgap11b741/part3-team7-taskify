@@ -1,7 +1,12 @@
 'use client';
-import loginAPI from '@/api/auth/loginAPI';
+import { apiClient } from '@/api/auth/apiClient';
 import { useState } from 'react';
 import Image from 'next/image';
+import { setAccessToken } from '@/utils/tokenhandler';
+
+interface LoginResponse {
+  accessToken: string; // 액세스 토큰 타입 명시
+}
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -12,12 +17,14 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      const response = await loginAPI({
-        email: email,
-        password: password,
+      const response = await apiClient.post<LoginResponse>('auth/login', {
+        email,
+        password,
       });
-
-      setMessage(`로그인 성공: ${response.user.email}`);
+      const { accessToken } = response.data;
+      //토큰 저장하기
+      setAccessToken(accessToken);
+      setMessage(`로그인 성공`);
       setEmail('');
       setPassword('');
     } catch (error) {

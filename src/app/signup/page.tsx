@@ -1,8 +1,12 @@
 'use client';
-
-import signupAPI from '@/api/auth/signupAPI';
+import { apiClient } from '@/api/auth/apiClient';
 import { useState } from 'react';
 import Image from 'next/image';
+import { setAccessToken } from '@/utils/tokenhandler';
+
+interface SignupResponse {
+  accessToken: string; // 액세스 토큰 타입 명시
+}
 
 const SignupPage = () => {
   const [email, setEmail] = useState('');
@@ -14,13 +18,17 @@ const SignupPage = () => {
     event.preventDefault();
 
     try {
-      const response = await signupAPI({
-        email: email,
-        nickname: nickname,
-        password: password,
+      const response = await apiClient.post<SignupResponse>('users', {
+        email,
+        nickname,
+        password,
       });
-
-      setMessage(`회원가입 성공: ${response.nickname}`);
+      //아래는 회원가입 성공 후 할 작업, userData 에서 추출한 토큰을 처리해요.
+      const { accessToken } = response.data;
+      //토큰 저장하기
+      setAccessToken(accessToken);
+      setMessage('회원가입 성공');
+      //폼 초기화하기
       setEmail('');
       setNickname('');
       setPassword('');
