@@ -1,3 +1,1 @@
-// .husky/pre-commit 파일 생성
-#!/bin/sh
-npx lint-staged
+npm run lint
