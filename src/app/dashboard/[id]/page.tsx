@@ -4,12 +4,14 @@ import { getColumnsByDashboardId, Column } from '@/api/snb/apis';
 
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
+import ColumnCreateModal from '@/components/ColumnCreateModal';
 
 const DashboardDetailPage = () => {
   const params = useParams();
   const dashboardId = Number(params.id);
   const [columns, setColumns] = useState<Column[]>([]);
   const prevColumnsRef = useRef<Column[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchColumns = async () => {
@@ -31,6 +33,10 @@ const DashboardDetailPage = () => {
 
     fetchColumns();
   }, [dashboardId, params.id]);
+  const handleNewColumnAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setIsModalOpen(true);
+  };
 
   return (
     <section className='flex bg-[#FAFAFA] h-screen'>
@@ -41,6 +47,8 @@ const DashboardDetailPage = () => {
           {/* 카드 리스트 등 추가 */}
         </div>
       ))}
+      <button onClick={handleNewColumnAdd}>새로운 칼럼 추가하기</button>
+      {isModalOpen && <ColumnCreateModal onClose={() => setIsModalOpen(false)} />}
     </section>
   );
 };

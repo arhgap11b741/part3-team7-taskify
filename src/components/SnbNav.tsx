@@ -2,9 +2,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { getDashboards, Dashboard } from '@/api/snb/apis';
-import TestModal from './TestModal'; // TestModal import 경로 확인
 import Image from 'next/image';
 import { useRouterContext } from '@/contexts/RouterContext';
+import DashboardCreateModal from './DashboardCreateModal';
 
 const SnbNav = () => {
   const [dashboards, setDashboards] = useState<Dashboard[]>([]);
@@ -185,7 +185,7 @@ const SnbNav = () => {
         </div>
       </nav>
       {/* TestModal에 onClose와 함께 onDashboardAdded 콜백 추가 */}
-      {isModalOpen && <TestModal onClose={handleModalClose} />}
+      {isModalOpen && <DashboardCreateModal onClose={handleModalClose} />}
     </section>
   );
 };
