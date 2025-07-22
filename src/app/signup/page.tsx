@@ -34,7 +34,7 @@ const SignupPage = () => {
       setEmail('');
       setNickname('');
       setPassword('');
-      router.push('/dashboard'); //회원가입 성공시 로그인 상태로 대시보드로 redirection.
+      router.push('/dashboard/mydashboard'); //회원가입 성공시 로그인 상태로 대시보드로 redirection.
     } catch (error) {
       console.error('회원가입 오류:', error);
       setMessage('회원가입 실패');

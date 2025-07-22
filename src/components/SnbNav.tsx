@@ -1,56 +1,103 @@
+// src/app/dashboard/[id]/SnbNav.tsx
 'use client';
 import { useEffect, useState } from 'react';
-import { mockDashboardData, Dashboard } from '@/api/mockDashboards';
-import TestModal from './TestModal';
+import { getDashboards, Dashboard } from '@/api/snb/apis';
+import TestModal from './TestModal'; // TestModal import 경로 확인
 import Image from 'next/image';
+import { useRouterContext } from '@/contexts/RouterContext';
 
 const SnbNav = () => {
   const [dashboards, setDashboards] = useState<Dashboard[]>([]);
-  // 추가하기 버튼으로 테스트 모달을 띄울 state
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<null | string>(null);
+  const { router } = useRouterContext();
+  const [page, setPage] = useState(1);
+  const [perPage] = useState(10);
+  const [totalCount, setTotalCount] = useState(0);
+  const totalPages = Math.ceil(totalCount / perPage);
 
-  /*
-  페이지네이션구현 시 사용할 state
-  const [prevCursor, _setPrevCursor] = useState<string | null>(null); 
-  const [nextCursor, _setNextCursor] = useState<string | null>(null);
-*/
+  // 대시보드 데이터를 가져오는 함수 (재사용을 위해 분리)
+  const fetchDashboards = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await getDashboards(page);
+      setTotalCount(data.totalCount);
+      console.log('대시보드 데이터 불러오기 완료');
+      setDashboards(data.dashboards);
+    } catch (err) {
+      console.error('대시보드 데이터 불러오기 실패:', err);
+      setError('대시보드 데이터를 불러오는 데 실패했어요.');
+    } finally {
+      setLoading(false); // 로딩 완료
+    }
+  };
+  const goToPrevPage = () => {
+    if (page > 1) setPage((prev) => prev - 1);
+  };
+
+  const goToNextPage = () => {
+    if (page < totalPages) setPage((prev) => prev + 1);
+  };
+
   useEffect(() => {
-    // 바로 mock 데이터 세팅 추후 api연결
-    setDashboards(mockDashboardData.dashboards);
-  }, []);
-  /* 
-페이지네이션구현 시 사용할 src 함수
-  이전 버튼의 이미지 src 결정 (이전 커서가 없으면 비활성화 이미지)
-  const prevButtonSrc =
-    prevCursor === null ? '/icons/icon_disabledArrow.svg' : '/icons/icon_arrow.svg';
+    fetchDashboards();
+  }, [page]);
 
-  // 다음 버튼의 이미지 src 결정 (다음 커서가 없으면 비활성화 이미지)
-  const nextButtonSrc =
-    nextCursor === null ? '/icons/icon_disabledArrow.svg' : '/icons/icon_arrow.svg';
-    */
+  const handleDashboardClick = (id: number) => {
+    router.push(`/dashboard/${id}`);
+  };
+
   const handleNewDashboardAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log('대시보드를 추가하는 모달이 띄워져야함');
     setIsModalOpen(true);
   };
+
+  // 모달이 닫히고 새 대시보드가 성공적으로 추가되었을 때 호출될 함수
+  const handleModalClose = (didAddSuccessfully = false) => {
+    setIsModalOpen(false);
+    if (didAddSuccessfully) {
+      // 새 대시보드가 추가되었다면 목록을 새로고침
+      fetchDashboards();
+    }
+  };
+
+  if (loading) {
+    return (
+      <nav className='flex flex-col items-center justify-center h-screen bg-white transition-[width] ease-in-out sm:w-[160px] lg:w-[300px] w-[68px] border-r-1 border-[#D9D9D9]'>
+        <p className='text-gray-500'>대시보드 목록 로딩 중...</p>
+      </nav>
+    );
+  }
+
+  if (error) {
+    return (
+      <nav className='flex flex-col items-center justify-center h-screen bg-white transition-[width] ease-in-out sm:w-[160px] lg:w-[300px] w-[68px] border-r-1 border-[#D9D9D9]'>
+        <p className='text-red-500'>오류: {error}</p>
+      </nav>
+    );
+  }
+
   return (
     <section>
-      <nav className='bg-white sm:w-[160px] lg:w-[300px] sm:items-start sm:px-[13px] sm:h-full flex flex-col gap-[17px] items-center w-[68px] px-[12px] py-[20px] h-screen border-r-1 border-[#D9D9D9]'>
+      <nav className='transition-[width] ease-in-out bg-white sm:w-[160px] lg:w-[300px] sm:items-start sm:px-[13px] sm:h-full flex flex-col gap-[17px] items-center w-[68px] px-[12px] py-[20px] h-screen border-r-1 border-[#D9D9D9]'>
         <h1>
           <Image
-            src='/icons/icon_snbTaskifyMOLogo.svg' // 모바일용 로고 이미지 경로
+            src='/icons/icon_snbTaskifyMOLogo.svg'
             alt='Taskify Mobile Logo'
             width={41}
             height={28}
             priority
-            className='sm:hidden' // 375px 이상에서는 숨김
+            className='sm:hidden'
           />
           <Image
-            src='/icons/icon_snbTaskifyLogo.svg' // 데스크탑용 로고 이미지 경로
+            src='/icons/icon_snbTaskifyLogo.svg'
             alt='Taskify Desktop Logo'
-            width={108.8} // 필요에 따라 데스크탑 로고의 너비/높이 조정
+            width={108.8}
             height={33.07}
             priority
-            className='hidden sm:block' // 375px 미만에서는 숨김, 375px 이상에서는 보임
+            className='hidden sm:block'
           />
         </h1>
         <div className='flex justify-center items-center w-full sm:justify-between'>
@@ -76,22 +123,23 @@ const SnbNav = () => {
         </div>
 
         <ul className='flex flex-col gap-[14px] sm:gap-[4px] w-full'>
-          {dashboards.map((item) => (
+          {dashboards.map((dashboard) => (
             <li
-              key={item.id}
+              key={dashboard.id}
+              onClick={() => handleDashboardClick(dashboard.id)}
               className='hover:bg-[#F1EFFD] p-[16px] text-[#787486] font-medium cursor-pointer sm:pl-[10px] sm:py-[8.5px] rounded-sm'
             >
               <div className='flex justify-center items-center gap-[14px] sm:justify-start'>
                 <span
                   className='w-[8px] h-[8px] rounded-full block rounded-sm'
-                  style={{ backgroundColor: item.color }}
+                  style={{ backgroundColor: dashboard.color }}
                 ></span>
 
                 <div className='hidden sm:flex items-center gap-[4px]'>
-                  <span className='w-full sm:w-[75px] overflow-hidden text-ellipsis whitespace-nowrap lg:w-full'>
-                    {item.title}
+                  <span className='transition-[width] w-full sm:w-[75px] overflow-hidden text-ellipsis whitespace-nowrap lg:w-full'>
+                    {dashboard.title}
                   </span>
-                  {item.createdByMe && (
+                  {dashboard.createdByMe && (
                     <span>
                       <Image
                         src='/icons/icon_crown.svg'
@@ -108,8 +156,9 @@ const SnbNav = () => {
         </ul>
         <div className='hidden sm:flex mt-[11px]'>
           <button
-            // disabled={prevCursor === null}
-            className='p-[11px] border border-[#D9D9D9] rounded-l-sm cursor-pointer'
+            disabled={page === 1}
+            onClick={goToPrevPage}
+            className='p-[11px] border disabled:opacity-50 border-[#D9D9D9] rounded-l-sm cursor-pointer'
           >
             <Image
               className='rotate-180'
@@ -121,8 +170,9 @@ const SnbNav = () => {
             />
           </button>
           <button
-            // disabled={nextCursor === null}
-            className='p-[11px] border border-[#D9D9D9] rounded-r-sm cursor-pointer'
+            onClick={goToNextPage}
+            disabled={totalPages === page}
+            className='p-[11px] disabled:opacity-50 border border-[#D9D9D9] rounded-r-sm cursor-pointer'
           >
             <Image
               //src={nextButtonSrc}
@@ -134,7 +184,8 @@ const SnbNav = () => {
           </button>
         </div>
       </nav>
-      {isModalOpen && <TestModal onClose={() => setIsModalOpen(false)} />}
+      {/* TestModal에 onClose와 함께 onDashboardAdded 콜백 추가 */}
+      {isModalOpen && <TestModal onClose={handleModalClose} />}
     </section>
   );
 };

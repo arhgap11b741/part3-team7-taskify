@@ -29,7 +29,7 @@ const LoginPage = () => {
       setMessage(`로그인 성공`);
       setEmail('');
       setPassword('');
-      router.push('/dashboard'); //로그인 성공시 로그인 상태로 대시보드로 redirection.
+      router.push('/dashboard/mydashboard'); //로그인 성공시 로그인 상태로 나의 대시보드로 redirection.
     } catch (error) {
       console.error('로그인 오류:', error);
       setMessage('로그인 실패');

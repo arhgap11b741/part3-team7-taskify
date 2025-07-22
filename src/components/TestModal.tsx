@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { mockDashboardData, Dashboard } from '@/api/mockDashboards';
+import { postDashboard } from '@/api/snb/apis';
 
 interface Props {
-  onClose: () => void;
+  onClose: (didAddSuccessfully: boolean) => void;
 }
 
 const COLORS = ['#760dde', '#e876ea', '#ffa500', '#76a5ea', '#7ac555'];
@@ -13,27 +13,24 @@ export default function TestModal({ onClose }: Props) {
   const [title, setTitle] = useState('');
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
-  const handleSubmit = () => {
+  const handleCreate = async () => {
     if (!title || !selectedColor) {
       alert('제목과 색상을 모두 선택해주세요!');
       return;
     }
-
-    const newDashboard: Dashboard = {
-      id: Date.now(),
-      title,
-      color: selectedColor,
-      userId: Math.random() * 1000,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      createdByMe: true,
-    };
-
-    // POST: 목데이터에 추가
-    mockDashboardData.dashboards.unshift(newDashboard);
-    mockDashboardData.totalCount++;
-
-    onClose(); // 모달 닫기
+    try {
+      const newDashboard = await postDashboard({
+        title: title,
+        color: selectedColor,
+      });
+      console.log('생성 성공:', newDashboard);
+      // 대시보드 생성 성공 시 true를 전달하여 모달 닫기
+      onClose(true);
+    } catch (err) {
+      console.error('생성 실패:', err);
+      // 생성 실패 시에는 false를 전달하여 모달 닫기
+      onClose(false);
+    }
   };
 
   return (
@@ -41,10 +38,10 @@ export default function TestModal({ onClose }: Props) {
       <div className='bg-white rounded-xl shadow-xl p-6 w-96'>
         <h2 className='text-xl font-bold mb-4'>대시보드 생성</h2>
 
-        <label className='block mb-2 text-sm font-medium text-gray-700'>제목</label>
+        <label className='block mb-2 text-sm font-medium text-gray-700'>대시보드 이름</label>
         <input
           type='text'
-          className='w-full px-3 py-2 border rounded-md mb-4'
+          className='w-full px-3 py-2 border border-[#D9D9D9] rounded-md mb-4'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder='대시보드 이름'
@@ -64,13 +61,17 @@ export default function TestModal({ onClose }: Props) {
           ))}
         </ul>
 
-        <div className='flex justify-end gap-2'>
-          <button className='px-4 py-2 bg-gray-300 rounded hover:bg-gray-400' onClick={onClose}>
+        <div className='flex justify-center gap-[8px]'>
+          <button
+            className='px-4 py-2 w-1/2 bg-white border border-[#D9D9D9] rounded hover:bg-[#e4e4e4]'
+            // 취소 버튼 클릭 시에는 false를 전달
+            onClick={() => onClose(false)}
+          >
             취소
           </button>
           <button
-            className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'
-            onClick={handleSubmit}
+            className='px-4 py-2 w-1/2 bg-[#5534DA] hover:bg-[#3a3063] text-white rounded'
+            onClick={handleCreate}
           >
             생성하기
           </button>
