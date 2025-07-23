@@ -32,7 +32,7 @@ export const ModalRoot = ({
   modalOpenState: boolean;
   modalOpenSetState: (state: boolean) => void;
   children: React.ReactNode;
-  title: string;
+  title?: string;
   meatballMenu: boolean;
   modalButtonType: 'none' | 'one' | 'two';
 }) => {
