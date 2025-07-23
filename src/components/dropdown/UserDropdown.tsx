@@ -2,24 +2,24 @@
 
 import { ReactNode, useEffect, useState } from 'react';
 import ChevronDown from '../../../public/icon/arrow_drop_down_FILL0_wght300_GRAD0_opsz24 2.svg';
-import { ColumnChip } from '../chip/ColumnChip';
-import { DropdownContextType } from './DropdownTypes';
-import { DropdownContext, useDropdownContext } from './DropdownContext';
+import { UserDropdownContextType } from './DropdownTypes';
+import { UserDropdownContext, useUserDropdownContext } from './DropdownContext';
+import { UserChip, UserType } from '../chip/UserChip';
 
 const DropdownRoot = ({
   children,
   valueCallback,
 }: {
   children: ReactNode;
-  valueCallback: (item: string | null) => void;
+  valueCallback: (item: UserType | null) => void;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<UserType | null>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
   const closeDropdown = () => setIsOpen(false);
 
-  const contextValue: DropdownContextType = {
+  const contextValue: UserDropdownContextType = {
     isOpen,
     selectedItem,
     toggleDropdown,
@@ -32,28 +32,28 @@ const DropdownRoot = ({
   }, [selectedItem, valueCallback]);
 
   return (
-    <DropdownContext.Provider value={contextValue}>
+    <UserDropdownContext.Provider value={contextValue}>
       <div className='relative'>{children}</div>
-    </DropdownContext.Provider>
+    </UserDropdownContext.Provider>
   );
 };
 
 const DropdownTrigger = ({ children }: { children: ReactNode }) => {
-  const { isOpen, toggleDropdown, selectedItem } = useDropdownContext();
+  const { isOpen, toggleDropdown, selectedItem } = useUserDropdownContext();
 
   return (
     <button
       onClick={toggleDropdown}
       className='w-56 flex items-center justify-between px-4 py-2 bg-white border border-gray-200 text-black rounded'
     >
-      {selectedItem ? <ColumnChip>{selectedItem}</ColumnChip> : children}
+      {selectedItem ? <UserChip user={selectedItem} size='small' /> : children}
       <ChevronDown className={`transition-transform ${isOpen && 'rotate-180'}`} />
     </button>
   );
 };
 
 const DropdownContent = ({ children }: { children: ReactNode }) => {
-  const { isOpen } = useDropdownContext();
+  const { isOpen } = useUserDropdownContext();
 
   const beforeRenderedClasses = 'mt-0 invisible opacity-0';
   const afterRenderedClasses = 'mt-2 visible opacity-100';
@@ -67,8 +67,8 @@ const DropdownContent = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const DropdownItem = ({ children }: { children: string }) => {
-  const { closeDropdown, setSelectedItem } = useDropdownContext();
+const DropdownItem = ({ children }: { children: UserType }) => {
+  const { closeDropdown, setSelectedItem } = useUserDropdownContext();
 
   const handleClick = () => {
     setSelectedItem(children);
@@ -77,16 +77,16 @@ const DropdownItem = ({ children }: { children: string }) => {
 
   return (
     <button onClick={handleClick} className='w-full px-4 py-2 flex hover:bg-violet-200'>
-      <ColumnChip>{children}</ColumnChip>
+      <UserChip user={children} size='small' />
     </button>
   );
 };
 
-const ColumnDropdown = {
+const UserDropdown = {
   Root: DropdownRoot,
   Trigger: DropdownTrigger,
   Content: DropdownContent,
   Item: DropdownItem,
 };
 
-export default ColumnDropdown;
+export default UserDropdown;
