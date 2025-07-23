@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Modal from '@/components/Modal'; // 위의 범용 모달
+import Modal from '@/components/Modal'; //범용 모달
 
 import { postDashboard } from '@/api/snb/apis';
 

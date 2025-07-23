@@ -47,7 +47,6 @@ export const getDashboards = async (pageParam: number): Promise<DashboardRespons
   }
 };
 
-// POST 요청 함수
 export const postDashboard = async (data: NewDashboardRequest): Promise<Dashboard> => {
   try {
     const res = await apiClient.post<Dashboard>(
@@ -56,7 +55,7 @@ export const postDashboard = async (data: NewDashboardRequest): Promise<Dashboar
     );
     return res.data;
   } catch (error: unknown) {
-    console.error('🚨 대시보드 생성 실패:', error);
+    console.error('대시보드 생성 실패:', error);
     throw error;
   }
 };
