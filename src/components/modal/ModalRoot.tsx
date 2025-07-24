@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import CloseIcon from '../../../public/icon/X.svg';
 import MeatballIcon from '../../../public/icon/meatballIcon.svg';
@@ -6,35 +6,33 @@ import MeatballDropdown from '../dropdown/MeatballDropdown';
 import { Button } from '../button/Button';
 
 type ModalPropsType = {
+  modalButtonType: 'none' | 'one' | 'two';
   title?: string;
   meatballMenu?: boolean;
   children: React.ReactNode | null;
-  modalButtonType: 'none' | 'one' | 'two';
+  modalOpenState: boolean;
   modalOpenSetState: (state: boolean) => void;
+  buttonCallback?: () => void;
 };
 
 export const ModalPropsContext = createContext<ModalPropsType>({
   title: undefined,
   meatballMenu: undefined,
   children: null,
-  modalButtonType: 'none',
+  modalButtonType: 'one',
+  modalOpenState: false,
   modalOpenSetState: () => {},
+  buttonCallback: () => {},
 });
 
-export const ModalRoot = ({
+export const ModalRoot: FC<ModalPropsType> = ({
   modalOpenState,
   modalOpenSetState,
   children,
   title,
   meatballMenu,
-  modalButtonType,
-}: {
-  modalOpenState: boolean;
-  modalOpenSetState: (state: boolean) => void;
-  children: React.ReactNode;
-  title?: string;
-  meatballMenu: boolean;
-  modalButtonType: 'none' | 'one' | 'two';
+  modalButtonType = 'one',
+  buttonCallback,
 }) => {
   const [portalElement, setPortalElement] = useState<Element | null>(null);
 
@@ -45,7 +43,15 @@ export const ModalRoot = ({
   return (
     <>
       <ModalPropsContext.Provider
-        value={{ title, meatballMenu, children, modalOpenSetState, modalButtonType }}
+        value={{
+          title,
+          meatballMenu,
+          children,
+          modalOpenState,
+          modalOpenSetState,
+          modalButtonType,
+          buttonCallback,
+        }}
       >
         {modalOpenState && portalElement ? createPortal(<ModalWrapper />, portalElement) : null}
       </ModalPropsContext.Provider>
@@ -73,14 +79,13 @@ const ModalBackdrop = () => {
 };
 
 const ModalWindow = () => {
-  const { title, meatballMenu, children, modalOpenSetState, modalButtonType } =
-    useContext(ModalPropsContext);
+  const { title, meatballMenu, children, modalOpenSetState } = useContext(ModalPropsContext);
 
   return (
     <div className='w-screen h-screen grid place-content-center'>
       <div className={`w-fit h-fit p-6 bg-white rounded-lg z-[2]`}>
         <div className='flex items-center gap-6'>
-          <h1 className='text-xl font-bold'>{title}</h1>
+          <h1 className='flex-1 text-xl font-bold'>{title}</h1>
           {meatballMenu && (
             <MeatballDropdown.Root>
               <MeatballDropdown.Trigger>
@@ -100,30 +105,31 @@ const ModalWindow = () => {
             <CloseIcon />
           </button>
         </div>
-        {children}
-        <div>
-          <ModalButtons modalButtonType={modalButtonType} />
-        </div>
+        <div className='w-full pt-2 pb-4'>{children}</div>
+        <ModalButtons />
       </div>
     </div>
   );
 };
 
-const ModalButtons = ({ modalButtonType }: { modalButtonType: 'none' | 'one' | 'two' }) => {
+const ModalButtons = () => {
+  const { modalButtonType, buttonCallback, modalOpenSetState } = useContext(ModalPropsContext);
   switch (modalButtonType) {
     case 'none':
       return null;
     case 'one':
       return (
-        <Button type='primary' className='w-full'>
+        <Button type='primary' className='w-full' onClick={buttonCallback}>
           확인
         </Button>
       );
     case 'two':
       return (
         <>
-          <Button type='outline'>취소</Button>
-          <Button type='primary' className='ml-2'>
+          <Button type='outline' onClick={() => modalOpenSetState(false)}>
+            취소
+          </Button>
+          <Button type='primary' className='ml-2' onClick={buttonCallback}>
             확인
           </Button>
         </>
