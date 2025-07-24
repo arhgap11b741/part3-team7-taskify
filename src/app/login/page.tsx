@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { setAccessToken } from '@/utils/tokenhandler';
 import { useRouterContext } from '@/contexts/RouterContext';
-import { ROUTES } from '@/utils/router';
+import { ROUTES } from '@/constants/router';
 
 interface LoginResponse {
   accessToken: string; // 액세스 토큰 타입 명시

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { apiClient } from '@/api/auth/apiClient';
 import { useRouter } from 'next/navigation';
-import { ROUTES } from '@/utils/router';
+import { ROUTES } from '@/constants/router';
 
 interface Dashboard {
   id: number;
