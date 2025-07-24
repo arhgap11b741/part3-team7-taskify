@@ -55,12 +55,13 @@ const SnbNav = () => {
   };
 
   // 모달이 닫히고 새 대시보드가 성공적으로 추가되었을 때 호출될 함수
-  const handleModalClose = (didAddSuccessfully = false) => {
+  const handleModalClose = () => {
     setIsModalOpen(false);
-    if (didAddSuccessfully) {
-      // 새 대시보드가 추가되었다면 목록을 새로고침
-      fetchDashboards();
-    }
+    fetchDashboards();
+    // if (didAddSuccessfully) {
+    //   // 새 대시보드가 추가되었다면 목록을 새로고침
+    //   fetchDashboards();
+    // }
   };
 
   if (loading) {
@@ -185,7 +186,13 @@ const SnbNav = () => {
         </div>
       </nav>
       {/* TestModal에 onClose와 함께 onDashboardAdded 콜백 추가 */}
-      {isModalOpen && <DashboardCreateModal onClose={handleModalClose} />}
+      {isModalOpen && (
+        <DashboardCreateModal
+          modalOpenState={isModalOpen}
+          modalOpenSetState={setIsModalOpen}
+          onCreated={fetchDashboards} // 새로고침
+        />
+      )}
     </section>
   );
 };
