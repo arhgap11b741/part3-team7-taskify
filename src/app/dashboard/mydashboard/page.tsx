@@ -1,8 +1,6 @@
-import SnbNav from '@/components/SnbNav';
 const dashboard = () => {
   return (
     <section className='flex bg-[#FAFAFA] h-screen'>
-      <SnbNav />
       <div>나의 대시보드 Section</div>
     </section>
   );

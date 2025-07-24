@@ -1,4 +1,4 @@
-import { apiClient } from '../auth/apiClient';
+import { apiClient } from '@/api/auth/apiClient';
 // 타입 정의
 export interface Dashboard {
   id: number;
