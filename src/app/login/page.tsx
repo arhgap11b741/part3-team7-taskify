@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { setAccessToken } from '@/utils/tokenhandler';
 import { useRouterContext } from '@/contexts/RouterContext';
+import { ROUTES } from '@/constants/router';
 
 interface LoginResponse {
   accessToken: string; // 액세스 토큰 타입 명시
@@ -29,7 +30,7 @@ const LoginPage = () => {
       setMessage(`로그인 성공`);
       setEmail('');
       setPassword('');
-      router.push('/dashboard'); //로그인 성공시 로그인 상태로 대시보드로 redirection.
+      router.push(ROUTES.DASHBOARD); //로그인 성공시 로그인 상태로 대시보드로 redirection.
     } catch (error) {
       console.error('로그인 오류:', error);
       setMessage('로그인 실패');

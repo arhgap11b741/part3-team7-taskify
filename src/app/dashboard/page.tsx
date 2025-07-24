@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { apiClient } from '@/api/auth/apiClient';
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/constants/router';
 
 interface Dashboard {
   id: number;
@@ -43,7 +44,7 @@ const Dashboard = () => {
         // 에러처리
 
         if (err?.response?.status === 401) {
-          router.push('/login'); //redirect!
+          router.push(ROUTES.LOGIN); //redirect!
         }
       });
   }, [router]);
