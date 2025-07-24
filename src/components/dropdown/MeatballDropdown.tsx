@@ -21,7 +21,7 @@ const DropdownRoot = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <DropdownContext.Provider value={contextValue}>
-      <div className='relative'>{children}</div>
+      <div className='relative h-7'>{children}</div>
     </DropdownContext.Provider>
   );
 };
@@ -29,7 +29,11 @@ const DropdownRoot = ({ children }: { children: React.ReactNode }) => {
 const DropdownTrigger = ({ children }: { children: React.ReactNode }) => {
   const { toggleDropdown } = useDropdownContext();
 
-  return <button onClick={toggleDropdown}>{children}</button>;
+  return (
+    <button className='cursor-pointer' onClick={toggleDropdown}>
+      {children}
+    </button>
+  );
 };
 
 const DropdownContent = ({ children }: { children: React.ReactNode }) => {
@@ -37,7 +41,7 @@ const DropdownContent = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div
-      className={`absolute left-0 w-24 bg-white border border-gray-200 text-black rounded transition-all duration-200 ease-out ${isOpen ? 'mt-2 visible opacity-100' : 'mt-0 invisible opacity-0'}`}
+      className={`absolute left-0 w-24 bg-white border border-gray-200 text-black rounded shadow-lg transition-all duration-200 ease-out ${isOpen ? 'mt-2 visible opacity-100' : 'mt-0 invisible opacity-0'}`}
     >
       {children}
     </div>
@@ -57,7 +61,10 @@ const DropdownItem = ({ children, onClick }: { children: string; onClick: () => 
   };
 
   return (
-    <button onClick={handleClick} className='w-full px-4 py-2 flex hover:bg-violet-200'>
+    <button
+      onClick={handleClick}
+      className='w-full px-4 py-2 flex hover:bg-violet-200 cursor-pointer'
+    >
       {children}
     </button>
   );
