@@ -17,7 +17,7 @@ interface AuthFormProps {
   apiEndpoint: string;
   redirectPath: string;
   fields: FormField[];
-  onSuccess?: (responseData: any) => void;
+  onSuccess?: (responseData: ResponseType) => void;
 }
 
 export const AuthForm = ({ title, apiEndpoint, fields, onSuccess }: AuthFormProps) => {
