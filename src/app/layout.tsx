@@ -31,6 +31,7 @@ export default function RootLayout({
       <RouterProvider>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           {children}
+          <div id='portal' />
         </body>
       </RouterProvider>
     </html>
