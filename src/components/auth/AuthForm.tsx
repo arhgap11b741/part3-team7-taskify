@@ -6,6 +6,10 @@ import { setAccessToken } from '@/utils/tokenhandler';
 import { useRouterContext } from '@/contexts/RouterContext';
 import { ROUTES } from '@/constants/router';
 
+interface ResponseData {
+  accessToken?: string;
+}
+
 interface FormField {
   label: string;
   name: string;
@@ -17,7 +21,7 @@ interface AuthFormProps {
   apiEndpoint: string;
   redirectPath: string;
   fields: FormField[];
-  onSuccess?: (responseData: ResponseType) => void;
+  onSuccess?: (responseData: ResponseData) => void;
 }
 
 export const AuthForm = ({ title, apiEndpoint, fields, onSuccess }: AuthFormProps) => {
