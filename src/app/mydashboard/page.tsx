@@ -13,7 +13,7 @@ export default function Dashboard() {
   }, [router]);
 
   return (
-    <section className='flex bg-[#FAFAFA] h-screen'>
+    <section className='flex bg-gray-500 h-screen'>
       <div>나의 대시보드 Section</div>
     </section>
   );

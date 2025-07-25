@@ -62,9 +62,9 @@ const ColumnCreateModal = ({
         value={columnName}
         onChange={(e) => inputChangeValue(e)}
         placeholder='대시보드 이름'
-        className={`${isDuplicate ? 'm-auto' : 'mb-4'} w-full px-3 py-2 border border-[#D9D9D9] rounded-md `}
+        className={`${isDuplicate ? 'm-auto' : 'mb-4'} w-full px-3 py-2 border border-gray-300 rounded-md `}
       />
-      <span className={`${isDuplicate ? 'block' : 'hidden'} text-red-500 text-sm py-3`}>
+      <span className={`${isDuplicate ? 'block' : 'hidden'} text-err text-sm py-3`}>
         중복된 컬럼 이름입니다.
       </span>
     </ModalRoot>

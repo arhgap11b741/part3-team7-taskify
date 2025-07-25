@@ -50,7 +50,7 @@ export default function DashboardCreateModal({
         <label className='block mb-2 text-sm font-medium text-gray-700'>대시보드 이름</label>
         <input
           type='text'
-          className='w-full px-3 py-2 border border-[#D9D9D9] rounded-md mb-4'
+          className='w-full px-3 py-2 border border-gray-300 rounded-md mb-4'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder='대시보드 이름'

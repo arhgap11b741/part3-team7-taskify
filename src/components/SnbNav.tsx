@@ -8,6 +8,7 @@ import DashboardCreateModal from './DashboardCreateModal';
 
 const SnbNav = () => {
   const [dashboards, setDashboards] = useState<Dashboard[]>([]);
+  const [selectDashboard, setSelectDashboard] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<null | string>(null);
@@ -46,6 +47,7 @@ const SnbNav = () => {
   }, [page]);
 
   const handleDashboardClick = (id: number) => {
+    setSelectDashboard(id);
     router.push(`/dashboard/${id}`);
   };
 
@@ -66,7 +68,7 @@ const SnbNav = () => {
 
   if (loading) {
     return (
-      <nav className='flex flex-col items-center justify-center h-screen bg-white transition-[width] ease-in-out sm:w-[160px] lg:w-[300px] w-[68px] border-r-1 border-[#D9D9D9]'>
+      <nav className='flex flex-col items-center justify-center h-screen bg-white transition-[width] ease-in-out sm:w-[160px] lg:w-[300px] w-[68px] border-r-1 border-gray-300'>
         <p className='text-gray-500'>대시보드 목록 로딩 중...</p>
       </nav>
     );
@@ -74,7 +76,7 @@ const SnbNav = () => {
 
   if (error) {
     return (
-      <nav className='flex flex-col items-center justify-center h-screen bg-white transition-[width] ease-in-out sm:w-[160px] lg:w-[300px] w-[68px] border-r-1 border-[#D9D9D9]'>
+      <nav className='flex flex-col items-center justify-center h-screen bg-white transition-[width] ease-in-out sm:w-[160px] lg:w-[300px] w-[68px] border-r-1 border-gray-300'>
         <p className='text-red-500'>오류: {error}</p>
       </nav>
     );
@@ -82,7 +84,7 @@ const SnbNav = () => {
 
   return (
     <section>
-      <nav className='transition-[width] ease-in-out bg-white sm:w-[160px] lg:w-[300px] sm:items-start sm:px-[13px] sm:h-full flex flex-col gap-[17px] items-center w-[68px] px-[12px] py-[20px] h-screen border-r-1 border-[#D9D9D9]'>
+      <nav className='transition-[width] ease-in-out bg-white sm:w-[160px] lg:w-[300px] sm:items-start sm:px-[13px] sm:h-full flex flex-col gap-[17px] items-center w-[68px] px-[12px] py-[20px] h-screen border-r-1 border-gray-300'>
         <h1>
           <Image
             src='/icons/icon_snbTaskifyMOLogo.svg'
@@ -102,7 +104,7 @@ const SnbNav = () => {
           />
         </h1>
         <div className='flex justify-center items-center w-full sm:justify-between'>
-          <h5 className='hidden sm:block text-sm text-[#787486] font-semibold'>Dash Boards</h5>
+          <h5 className='hidden sm:block text-sm text-sec-gray-300 font-semibold'>Dash Boards</h5>
           <button className='cursor-pointer' onClick={handleNewDashboardAdd}>
             <Image
               src='/icons/icon_dashboardAdd.svg'
@@ -128,7 +130,9 @@ const SnbNav = () => {
             <li
               key={dashboard.id}
               onClick={() => handleDashboardClick(dashboard.id)}
-              className='hover:bg-[#F1EFFD] p-[16px] text-[#787486] font-medium cursor-pointer sm:pl-[10px] sm:py-[8.5px] rounded-sm'
+              className={`p-[16px] text-sec-gray-300 font-medium cursor-pointer sm:pl-[10px] sm:py-[8.5px] rounded-sm hover:bg-pri-bg-soft ${
+                selectDashboard === dashboard.id ? 'bg-pri-bg-soft' : ''
+              }`}
             >
               <div className='flex justify-center items-center gap-[14px] sm:justify-start'>
                 <span
@@ -159,7 +163,7 @@ const SnbNav = () => {
           <button
             disabled={page === 1}
             onClick={goToPrevPage}
-            className='p-[11px] border disabled:opacity-50 border-[#D9D9D9] rounded-l-sm cursor-pointer'
+            className='p-[11px] border disabled:opacity-50 border-gray-300 rounded-l-sm cursor-pointer'
           >
             <Image
               className='rotate-180'
@@ -173,7 +177,7 @@ const SnbNav = () => {
           <button
             onClick={goToNextPage}
             disabled={totalPages === page}
-            className='p-[11px] disabled:opacity-50 border border-[#D9D9D9] rounded-r-sm cursor-pointer'
+            className='p-[11px] disabled:opacity-50 border border-gray-300 rounded-r-sm cursor-pointer'
           >
             <Image
               //src={nextButtonSrc}
