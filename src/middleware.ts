@@ -7,7 +7,7 @@ export default function middleware(request: NextRequest) {
     (token && request.nextUrl.pathname.startsWith('/login')) ||
     (token && request.nextUrl.pathname.startsWith('/signup'))
   ) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    return NextResponse.redirect(new URL('/mydashboard', request.url));
   }
   if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/login', request.url));
