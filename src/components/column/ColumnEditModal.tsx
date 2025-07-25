@@ -1,70 +1,85 @@
 import { useState } from 'react';
-import Modal from '../Modal';
 import { EditColumn, deleteColumn } from '@/api/dashboard/apis';
+import { ModalRoot } from '../modal/ModalRoot';
 interface Props {
+  title: string;
   columnId: number;
-  onClose: (didSucceed: boolean) => void;
+  modalOpenState: boolean;
+  modalOpenSetState: (state: boolean) => void;
+  onCreated?: () => void;
 }
 
-const ColumnEditModal = ({ columnId, onClose }: Props) => {
-  const [columnName, setColumnName] = useState<string>('');
-  //const [isDuplicate, setIsDuplicate] = useState(false);
+const ColumnEditModal = ({
+  title,
+  columnId,
+  modalOpenState,
+  modalOpenSetState,
+  onCreated,
+}: Props) => {
+  const [columnName, setColumnName] = useState<string>(title);
+  const [isDuplicate, setIsDuplicate] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const inputChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setIsDuplicate(title === value);
     setColumnName(value);
   };
 
-  const putColumnTitle = async () => {
-    console.log(typeof columnId, 'dd');
+  const updateColumnTitle = async () => {
     try {
-      const updatedColumn = await EditColumn({ columnId: columnId, title: columnName });
-      console.log('수정된 컬럼:', updatedColumn);
-      onClose(true); // 성공했으므로 true 전달
+      await EditColumn({ columnId: columnId, title: columnName });
+      modalOpenSetState(false);
+      onCreated?.();
     } catch (err) {
       console.error('생성 실패:', err);
-      onClose(false);
     }
   };
 
-  const DeleteColumnhandler = async () => {
+  const DeleteColumnheader = async () => {
     try {
       await deleteColumn({ columnId: columnId });
-      onClose(true);
+      onCreated?.();
+      modalOpenSetState(false);
     } catch (err) {
       console.error('삭제 실패:', err);
-      onClose(false);
     }
   };
 
   return (
-    <Modal onClose={() => onClose(false)}>
-      <h2 className='text-xl font-bold mb-4'>컬럼 관리</h2>
-      <label className='block mb-2 text-sm font-medium text-gray-700'>이름</label>
-      <input
-        type='text'
-        value={columnName}
-        onChange={(e) => inputChangeValue(e)}
-        placeholder='대시보드 이름'
-        className={`w-full px-3 py-2 border border-[#D9D9D9] rounded-md `}
-      />
-      <div className='flex justify-center gap-[8px] mt-[24px]'>
-        <button
-          className='px-4 py-2 w-1/2 bg-white border border-[#D9D9D9] rounded hover:bg-[#e4e4e4]'
-          onClick={() => {
-            DeleteColumnhandler();
-          }}
+    <>
+      <ModalRoot
+        title='컬럼 관리'
+        modalButtonType='multi'
+        modalOpenSetState={modalOpenSetState}
+        modalOpenState={modalOpenState}
+        buttonCallback={updateColumnTitle}
+        buttonCallbackVer2={DeleteColumnheader}
+      >
+        <label className='block mb-2 text-sm font-medium text-gray-700'>이름</label>
+        <input
+          type='text'
+          onChange={inputChangeValue}
+          placeholder={columnName}
+          className='w-full px-3 py-2 border border-gray-300 rounded-md'
+        />
+        <span className={`${isDuplicate ? 'block' : 'hidden'} text-red-500 text-sm py-3`}>
+          중복된 컬럼 이름입니다.
+        </span>
+      </ModalRoot>
+
+      {isDeleteModalOpen && (
+        <ModalRoot
+          title='삭제 확인'
+          modalButtonType='two'
+          modalOpenState={isDeleteModalOpen}
+          modalOpenSetState={setIsDeleteModalOpen}
+          buttonCallback={DeleteColumnheader}
         >
-          삭제
-        </button>
-        <button
-          className='px-4 py-2 w-1/2 bg-[#5534DA] hover:bg-[#3a3063] text-white rounded'
-          onClick={putColumnTitle}
-        >
-          변경
-        </button>
-      </div>
-    </Modal>
+          <div className='text-sm text-gray-700'></div>
+        </ModalRoot>
+      )}
+    </>
   );
 };
 export default ColumnEditModal;

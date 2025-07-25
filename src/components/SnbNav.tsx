@@ -55,14 +55,14 @@ const SnbNav = () => {
   };
 
   // 모달이 닫히고 새 대시보드가 성공적으로 추가되었을 때 호출될 함수
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    fetchDashboards();
-    // if (didAddSuccessfully) {
-    //   // 새 대시보드가 추가되었다면 목록을 새로고침
-    //   fetchDashboards();
-    // }
-  };
+  // const handleModalClose = () => {
+  //   setIsModalOpen(false);
+  //   fetchDashboards();
+  //   // if (didAddSuccessfully) {
+  //   //   // 새 대시보드가 추가되었다면 목록을 새로고침
+  //   //   fetchDashboards();
+  //   // }
+  // };
 
   if (loading) {
     return (

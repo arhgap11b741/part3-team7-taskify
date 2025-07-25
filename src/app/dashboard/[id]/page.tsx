@@ -77,12 +77,9 @@ const DashboardDetailPage = () => {
           <ColumnCreateModal
             isDuplicateColumnName={isDuplicateColumnName}
             dashboardId={dashboardId}
-            onClose={(didSucceed) => {
-              setIsModalOpen(false);
-              if (didSucceed) {
-                fetchColumns();
-              }
-            }}
+            modalOpenSetState={setIsModalOpen}
+            modalOpenState={isModalOpen}
+            onCreated={fetchColumns} // 성공시 재호출
           />
         )}
       </div>
