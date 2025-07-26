@@ -1,12 +1,7 @@
 'use client';
 
+import { UserType } from '@/types/UserTypes';
 import { useEffect, useState } from 'react';
-
-export interface UserType {
-  id: number;
-  nickname: string;
-  profileImageUrl?: string;
-}
 
 type SizeType = 'large' | 'small';
 
