@@ -1,6 +1,6 @@
 import Snb from '@/components/SnbNav';
 import React from 'react';
-
+import 'react-datepicker/dist/react-datepicker.css';
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className='flex h-screen'>

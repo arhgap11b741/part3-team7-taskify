@@ -48,7 +48,7 @@ const DashboardDetailPage = () => {
 
   return (
     <section className='flex bg-gray-500 h-screen'>
-      <div className='lg:flex-row lg:w-fit lg:overflow-x-scroll sm:m-[20px] flex m-[12px] flex-col w-full'>
+      <div className='lg:flex-row lg:w-fit lg:overflow-x-scroll overflow-y-auto sm:m-[20px] flex m-[12px] flex-col w-full'>
         <Suspense fallback={<Loading />}>
           {columns.map((column) => (
             <ColumnComponent
@@ -56,12 +56,13 @@ const DashboardDetailPage = () => {
               columnId={column.id}
               title={column.title}
               onColumnUpdate={fetchColumns}
+              dashboardId={dashboardId}
             />
           ))}
         </Suspense>
 
         <button
-          className='lg:w-[354px] lg:shrink-0 lg:mt-[60px] lg:ml-[20px] sm:mt-[20px] cursor-pointer flex justify-center items-center gap-[12px] bg-white w-full h-[66px] text-base border font-bold border-gray-300 mt-[16px] rounded-lg'
+          className='lg:w-[354px] lg:shrink-0 lg:mt-[60px] lg:ml-[20px] sm:mt-[20px] h-[66px] shrink-0 cursor-pointer flex justify-center items-center gap-[12px] bg-white w-full text-base border font-bold border-gray-300 mt-[16px] rounded-lg'
           onClick={handleNewColumnAdd}
         >
           새로운 칼럼 추가하기
