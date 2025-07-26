@@ -7,7 +7,7 @@ export const useImageUpload = (columnId: number) => {
   const uploadImage = async (file: File): Promise<string> => {
     const formData = new FormData();
     formData.append('image', file);
-    const res = await apiClient.post<{ url: string }>('/columns/${columnId}/card-image', formData, {
+    const res = await apiClient.post<{ url: string }>(`/columns/${columnId}/card-image`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return res.data.url;
